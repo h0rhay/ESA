@@ -4,6 +4,6 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [react()],
   output: 'static',
-  site: 'https://YOUR-USERNAME.github.io',  // Replace YOUR-USERNAME
-  base: '/my-landing-page',                 // Replace with your repo name
+  site: 'https://www.eastsussexaquapark.co.uk',  // Your custom domain
+  base: '/',  // Since we're using a custom domain, base should be '/'
 }); 
