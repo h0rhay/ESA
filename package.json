@@ -8,8 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "tina": "tinacms dev -c 'npm run dev'",
-    "tina:build": "tinacms build && npm run build"
+    "tina": "tinacms dev -c \"astro dev\"",
+    "tina:build": "tinacms build && astro build"
   },
   "dependencies": {
     "@astrojs/react": "^3.0.10",
@@ -21,9 +21,9 @@
     "tinacms": "^1.5.28"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.17.9",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "typescript": "^5.3.3"
   }
-} 
+}

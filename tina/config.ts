@@ -2,8 +2,8 @@ import { defineConfig } from "tinacms";
 
 export default defineConfig({
   branch: "main",
-  clientId: process.env.TINA_CLIENT_ID || "",  // You'll need to add this later
-  token: process.env.TINA_TOKEN || "",         // You'll need to add this later
+  clientId: process.env.TINA_CLIENT_ID,
+  token: process.env.TINA_TOKEN,
   build: {
     outputFolder: "admin",
     publicFolder: "public",
@@ -17,25 +17,25 @@ export default defineConfig({
   schema: {
     collections: [
       {
-        name: "post",
-        label: "Posts",
-        path: "src/content",
+        name: "page",
+        label: "Pages",
+        path: "src/content/pages",
+        format: "mdx",
         fields: [
           {
             type: "string",
             name: "title",
-            label: "Title",
-            isTitle: true,
+            label: "Page Title",
             required: true,
           },
           {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
-            isBody: true,
-          },
+            type: "string",
+            name: "heading",
+            label: "Main Heading",
+            required: true,
+          }
         ],
       },
     ],
   },
-}); 
+});
