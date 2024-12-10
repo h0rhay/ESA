@@ -1,0 +1,53 @@
+---
+import TinaPageContent from './react/TinaPageContent';
+import { client } from '../../tina/__generated__/client';
+import type { PageQuery } from '../../tina/__generated__/types';
+
+const query = `#graphql
+  query GetPage($relativePath: String!) {
+    page(relativePath: $relativePath) {
+      body
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+`;
+
+const variables = { relativePath: 'home.mdx' };
+let data: PageQuery;
+try {
+  const result = await client.queries.page({ relativePath: 'home.mdx' });
+  data = result.data;
+} catch (error) {
+  console.error('Error fetching page:', error);
+  data = {
+    page: {
+      __typename: "Page",
+      id: "error",
+      body: 'Unable to load page content.',
+      _sys: {
+        filename: "error",
+        basename: "error",
+        breadcrumbs: [],
+        path: "",
+        relativePath: "",
+        extension: ""
+      }
+    }
+  };
+}
+---
+
+<TinaPageContent 
+  client:only="react" 
+  data={data}
+  query={query}
+  variables={variables}
+/>

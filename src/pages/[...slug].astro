@@ -1,0 +1,57 @@
+---
+import { client } from '../../tina/__generated__/client';
+import Layout from '../layouts/Layout.astro';
+import PageContent from '../components/PageContent.astro';
+import PostContent from '../components/PostContent.astro';
+
+const { slug } = Astro.params;
+
+// Generate static paths
+export async function getStaticPaths() {
+  try {
+    const pages = await client.queries.pageConnection();
+    const posts = await client.queries.postConnection();
+    
+    const pagePaths = pages.data?.pageConnection?.edges?.map((edge) => ({
+      params: { 
+        slug: edge?.node?._sys.filename === 'home' ? undefined : edge?.node?._sys.filename 
+      },
+    })) || [];
+
+    const postPaths = posts.data?.postConnection?.edges?.map((edge) => ({
+      params: { 
+        slug: `posts/${edge?.node?._sys.filename}` 
+      },
+    })) || [];
+
+    return [...pagePaths, ...postPaths];
+  } catch (error) {
+    console.error('Error generating static paths:', error);
+    // Return at least the home page path to prevent build failure
+    return [{ params: { slug: undefined } }];
+  }
+}
+
+const isPost = slug?.startsWith('posts/');
+const relativePath = isPost 
+  ? `${slug?.replace('posts/', '')}.md`
+  : `${slug || 'home'}.mdx`;
+---
+
+<Layout>
+  <main>
+    {isPost ? (
+      <PostContent relativePath={relativePath} />
+    ) : (
+      <PageContent />
+    )}
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    max-width: 800px;
+  }
+</style>

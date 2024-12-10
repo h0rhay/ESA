@@ -1,0 +1,29 @@
+---
+import { client } from '../../../tina/__generated__/client';
+import Layout from '../../layouts/Layout.astro';
+import type { PostConnection, Post } from '../../../tina/__generated__/types';
+
+interface PostEdge {
+  node?: {
+    _sys: {
+      filename: string;
+    };
+  };
+}
+
+const posts = await client.queries.postConnection();
+const edges = (posts.data.postConnection.edges || []) as PostEdge[];
+---
+
+<Layout>
+  <h1>Posts</h1>
+  <div>
+    {edges.map((post) => (
+      <div>
+        <a href={`/posts/${post?.node?._sys.filename}`}>
+          {post?.node?._sys.filename}
+        </a>
+      </div>
+    ))}
+  </div>
+</Layout> 

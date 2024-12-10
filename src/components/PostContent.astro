@@ -1,0 +1,58 @@
+---
+import TinaPostContent from './react/TinaPostContent';
+import { client } from '../../tina/__generated__/client';
+import type { PostQuery } from '../../tina/__generated__/types';
+
+const { relativePath } = Astro.props;
+
+const query = `#graphql
+  query GetPost($relativePath: String!) {
+    post(relativePath: $relativePath) {
+      title
+      body
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+`;
+
+let data: PostQuery;
+try {
+  const result = await client.queries.post({ relativePath });
+  data = result.data;
+} catch (error) {
+  console.error('Error fetching post:', error);
+  data = {
+    post: {
+      __typename: "Post",
+      id: "error",
+      title: 'Post Not Found',
+      body: 'Unable to load post content.',
+      _sys: {
+        filename: "error",
+        basename: "error",
+        breadcrumbs: [],
+        path: "",
+        relativePath: "",
+        extension: ""
+      }
+    }
+  };
+}
+
+const variables = { relativePath };
+---
+
+<TinaPostContent 
+  client:only="react" 
+  data={data}
+  query={query}
+  variables={variables}
+/> 

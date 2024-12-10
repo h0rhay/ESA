@@ -1,0 +1,26 @@
+{
+  "name": "esa-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build --local && TINA_PUBLIC_IS_LOCAL=true astro build",
+    "build:prod": "tinacms build && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.0.0",
+    "@tinacms/auth": "^1.0.3",
+    "@tinacms/cli": "^1.5.29",
+    "astro": "^5.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tinacms": "^1.5.20"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}
